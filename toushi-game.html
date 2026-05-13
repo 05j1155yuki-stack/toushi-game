@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>投資クイズゲーム</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body{
+      background:#050505;
+      color:#00ff88;
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:20px;
+    }
+
+    .container{
+      width:100%;
+      max-width:700px;
+      background:#111;
+      border:1px solid #00ff88;
+      border-radius:20px;
+      padding:30px;
+      box-shadow:0 0 20px rgba(0,255,136,0.3);
+    }
+
+    h1{
+      text-align:center;
+      margin-bottom:20px;
+      font-size:2rem;
+      text-shadow:0 0 10px #00ff88;
+    }
+
+    .status{
+      display:flex;
+      justify-content:space-between;
+      margin-bottom:20px;
+      font-size:1.1rem;
+      padding:10px;
+      background:#0b0b0b;
+      border-radius:10px;
+    }
+
+    .question{
+      font-size:1.3rem;
+      margin-bottom:25px;
+      line-height:1.6;
+    }
+
+    .answers{
+      display:grid;
+      gap:15px;
+    }
+
+    button{
+      border:none;
+      padding:15px;
+      border-radius:12px;
+      background:#1a1a1a;
+      color:#00ff88;
+      font-size:1rem;
+      cursor:pointer;
+      transition:0.2s;
+      border:1px solid #00ff88;
+    }
+
+    button:hover{
+      background:#00ff88;
+      color:#000;
+      transform:translateY(-2px);
+      box-shadow:0 0 15px rgba(0,255,136,0.5);
+    }
+
+    .bet-buttons{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:15px;
+      margin-top:20px;
+    }
+
+    .center{
+      text-align:center;
+    }
+
+    .result{
+      margin-top:20px;
+      font-size:1.2rem;
+      text-align:center;
+      min-height:40px;
+    }
+
+    .hidden{
+      display:none;
+    }
+
+    .blog-btn{
+      margin-top:25px;
+      width:100%;
+      background:#00ff88;
+      color:#000;
+      font-weight:bold;
+    }
+
+    .gameover{
+      color:#ff4444;
+      text-shadow:0 0 10px #ff4444;
+    }
+
+    .win{
+      color:#00ff88;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <h1>📈 投資クイズゲーム</h1>
+
+  <div class="status">
+    <div>ポイント: <span id="points">10000</span>pt</div>
+    <div>問題: <span id="qnum">1</span>/5</div>
+  </div>
+
+  <div id="betScreen">
+
+    <div class="question center">
+      賭けポイントを選択してください
+    </div>
+
+    <div class="bet-buttons">
+      <button onclick="setBet(1000)">1,000pt</button>
+      <button onclick="setBet(3000)">3,000pt</button>
+      <button onclick="setBet(5000)">5,000pt</button>
+      <button onclick="setBet('all')">全額BET</button>
+    </div>
+
+  </div>
+
+  <div id="quizScreen" class="hidden">
+
+    <div class="question" id="question"></div>
+
+    <div class="answers" id="answers"></div>
+
+    <div class="result" id="result"></div>
+
+  </div>
+
+  <div id="endScreen" class="hidden center">
+    <h2 id="endTitle"></h2>
+
+    <p style="margin-top:20px; font-size:1.2rem;">
+      最終ポイント：<span id="finalPoints"></span>pt
+    </p>
+
+    <button class="blog-btn"
+      onclick="window.open('https://example.com','_blank')">
+      投資をもっと学ぶなら：
+      フリーターの投資日記
+    </button>
+
+    <button style="margin-top:15px;"
+      onclick="location.reload()">
+      もう一度遊ぶ
+    </button>
+  </div>
+
+</div>
+
+<script>
+
+const quizData = [
+
+  {
+    question:"PERとは何を表す指標？",
+    answers:[
+      "株価収益率",
+      "自己資本比率",
+      "配当利回り",
+      "純利益"
+    ],
+    correct:0
+  },
+
+  {
+    question:"PBRが1倍未満の場合、一般的に何を意味する？",
+    answers:[
+      "割高",
+      "企業価値が解散価値以下",
+      "無配当",
+      "赤字確定"
+    ],
+    correct:1
+  },
+
+  {
+    question:"複利の最大の特徴は？",
+    answers:[
+      "税金がかからない",
+      "元本保証",
+      "利益にも利益がつく",
+      "損失が出ない"
+    ],
+    correct:2
+  },
+
+  {
+    question:"分散投資の目的として最も適切なのは？",
+    answers:[
+      "短期で10倍株を狙う",
+      "リスクを減らす",
+      "税金をゼロにする",
+      "株価を操作する"
+    ],
+    correct:1
+  },
+
+  {
+    question:"長期投資で重要視されやすいものは？",
+    answers:[
+      "毎日の値動き",
+      "噂",
+      "企業の成長力",
+      "SNSの流行"
+    ],
+    correct:2
+  }
+
+];
+
+let currentQuestion = 0;
+let points = 10000;
+let currentBet = 0;
+
+const pointsEl = document.getElementById("points");
+const qnumEl = document.getElementById("qnum");
+const questionEl = document.getElementById("question");
+const answersEl = document.getElementById("answers");
+const resultEl = document.getElementById("result");
+
+function setBet(amount){
+
+  if(amount === 'all'){
+    currentBet = points;
+  }else{
+    currentBet = amount;
+  }
+
+  if(currentBet > points){
+    alert("ポイントが不足しています！");
+    return;
+  }
+
+  document.getElementById("betScreen").classList.add("hidden");
+  document.getElementById("quizScreen").classList.remove("hidden");
+
+  loadQuestion();
+}
+
+function loadQuestion(){
+
+  resultEl.textContent = "";
+
+  const q = quizData[currentQuestion];
+
+  questionEl.textContent = q.question;
+
+  answersEl.innerHTML = "";
+
+  q.answers.forEach((answer,index)=>{
+
+    const btn = document.createElement("button");
+
+    btn.textContent = answer;
+
+    btn.onclick = ()=>checkAnswer(index);
+
+    answersEl.appendChild(btn);
+
+  });
+
+}
+
+function checkAnswer(selected){
+
+  const q = quizData[currentQuestion];
+
+  const buttons = answersEl.querySelectorAll("button");
+
+  buttons.forEach(btn=>btn.disabled = true);
+
+  if(selected === q.correct){
+
+    points += currentBet;
+
+    resultEl.innerHTML =
+      `✅ 正解！ +${currentBet}pt`;
+
+    resultEl.className = "result win";
+
+  }else{
+
+    points -= currentBet;
+
+    resultEl.innerHTML =
+      `❌ 不正解！ -${currentBet}pt`;
+
+    resultEl.className = "result gameover";
+
+  }
+
+  pointsEl.textContent = points;
+
+  setTimeout(()=>{
+
+    if(points <= 0){
+
+      endGame(false);
+      return;
+
+    }
+
+    currentQuestion++;
+
+    if(currentQuestion >= quizData.length){
+
+      endGame(true);
+
+    }else{
+
+      qnumEl.textContent = currentQuestion + 1;
+
+      document.getElementById("quizScreen")
+        .classList.add("hidden");
+
+      document.getElementById("betScreen")
+        .classList.remove("hidden");
+
+    }
+
+  },1500);
+
+}
+
+function endGame(clear){
+
+  document.getElementById("quizScreen")
+    .classList.add("hidden");
+
+  document.getElementById("betScreen")
+    .classList.add("hidden");
+
+  document.getElementById("endScreen")
+    .classList.remove("hidden");
+
+  document.getElementById("finalPoints")
+    .textContent = points;
+
+  const title = document.getElementById("endTitle");
+
+  if(clear){
+
+    title.innerHTML = "🎉 ゲームクリア！";
+
+    title.className = "win";
+
+  }else{
+
+    title.innerHTML = "💥 ゲームオーバー";
+
+    title.className = "gameover";
+
+  }
+
+}
+
+</script>
+
+</body>
+</html>
