@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FP3級 投資クイズゲーム Professional</title>
+    <title>FP3級 投資クイズゲーム | フリーターの投資日記</title>
     <style>
         * {
             margin: 0;
@@ -33,9 +33,33 @@
             box-shadow: 0 0 25px rgba(0, 255, 136, 0.25);
         }
 
+        /* 誘導ヘッダー */
+        .top-nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            font-size: 0.85rem;
+            color: #00ff88;
+            border: 1px solid #00ff88;
+            padding: 5px 12px;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .nav-link:hover {
+            background: #00ff88;
+            color: #000;
+        }
+
         h1 {
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             font-size: 1.8rem;
             text-shadow: 0 0 10px #00ff88;
         }
@@ -108,14 +132,30 @@
         .hidden { display: none; }
         .center { text-align: center; }
 
-        .blog-btn {
+        /* 誘導ボタン */
+        .promo-section {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px dashed #333;
+        }
+
+        .btn-cta {
+            display: block;
             width: 100%;
-            margin-top: 15px;
-            background: #00ff88;
-            color: #000 !important;
+            margin-top: 12px;
+            padding: 15px;
+            border-radius: 12px;
+            text-decoration: none;
             font-weight: bold;
             text-align: center;
+            transition: 0.3s;
         }
+
+        .btn-blog { background: #00ff88; color: #000 !important; }
+        .btn-youtube { background: #ff0000; color: #fff !important; border: none; }
+        .btn-x { background: #1da1f2; color: #fff !important; border: none; }
+
+        .btn-cta:hover { opacity: 0.8; transform: scale(1.02); }
 
         .win { color: #00ff88; }
         .gameover { color: #ff4444; text-shadow: 0 0 10px #ff4444; }
@@ -137,77 +177,99 @@
 <body>
 
 <div class="container">
+    <nav class="top-nav">
+        <a href="https://invest-challenge.com/" target="_blank" class="nav-link">🌐 投資日記ブログ</a>
+        <a href="https://www.youtube.com/@フリーターの投資日記?sub_confirmation=1" target="_blank" class="nav-link">📺 YouTube登録</a>
+    </nav>
+
     <h1>📈 FP3級 投資クイズゲーム</h1>
-    <div class="subtitle">全30問からランダムに出題される実践編</div>
+    <div class="subtitle">資産を増やして「伝説の投資家」を目指せ！</div>
 
     <div class="status">
         <div>保有：<span id="points">10000</span> pt</div>
         <div>進捗：<span id="qnum">1</span> / 10</div>
     </div>
 
+    <!-- BET画面 -->
     <div id="betScreen">
-        <div class="question center">次の市場にいくらBETしますか？</div>
+        <div class="question center">次の案件にいくらBETしますか？</div>
         <div class="bet-buttons">
-            <button onclick="setBet(1000)">1,000pt (手堅く)</button>
-            <button onclick="setBet(3000)">3,000pt (勝負)</button>
-            <button onclick="setBet(5000)">5,000pt (強気)</button>
-            <button onclick="setBet(points)" style="border-color:#ff4444; color:#ff4444;">💥 ALL-IN (全額)</button>
+            <button onclick="setBet(1000)">1,000pt (分散投資)</button>
+            <button onclick="setBet(3000)">3,000pt (中長期保有)</button>
+            <button onclick="setBet(5000)">5,000pt (短期決戦)</button>
+            <button onclick="setBet(points)" style="border-color:#ff4444; color:#ff4444;">💥 ALL-IN (全力投球)</button>
         </div>
     </div>
 
+    <!-- クイズ画面 -->
     <div id="quizScreen" class="hidden">
         <div class="question" id="question"></div>
         <div class="answers" id="answers"></div>
         <div class="result" id="result"></div>
     </div>
 
+    <!-- 終了画面 -->
     <div id="endScreen" class="hidden center">
         <h2 id="endTitle"></h2>
         <div class="rank" id="rankText"></div>
         <p style="margin-top:20px; font-size:1.2rem;">最終資産：<span id="finalPoints"></span> pt</p>
-        <button class="blog-btn" onclick="location.reload()">🔄 再挑戦する</button>
-        <button class="blog-btn" style="background:#1da1f2; color:#fff;" onclick="shareResult()">🐦 結果をXに公開</button>
+        
+        <div class="promo-section">
+            <p style="color:#aaa; font-size:0.9rem; margin-bottom:10px;">＼ さらに投資知識を深めるなら ／</p>
+            
+            <a href="https://invest-challenge.com/" target="_blank" class="btn-cta btn-blog">
+                📘 ブログ「フリーターの投資日記」を読む
+            </a>
+            
+            <a href="https://www.youtube.com/@フリーターの投資日記?sub_confirmation=1" target="_blank" class="btn-cta btn-youtube">
+                ▶️ YouTubeチャンネルを登録する
+            </a>
+
+            <a href="javascript:void(0)" onclick="shareResult()" class="btn-cta btn-x">
+                🐦 結果をXでシェアする
+            </a>
+        </div>
+
+        <button style="margin-top:20px; width:100%; border-color:#555; color:#aaa;" onclick="location.reload()">
+            🔄 もう一度挑戦する
+        </button>
     </div>
 </div>
 
 <script>
     const allQuestions = [
-        // 株式
         { q: "PER（株価収益率）の計算式は？", a: ["株価 ÷ 1株当たり純利益", "株価 ÷ 1株当たり純資産", "1株当たり配当金 ÷ 株価", "純利益 ÷ 自己資本"], c: 0 },
         { q: "PBR（株価純資産倍率）が1倍を割っている状態は？", a: ["株価が解散価値を下回っている", "株価が過去最高値である", "配当金がゼロである", "会社が倒産した"], c: 0 },
         { q: "ROE（自己資本利益率）が高いほど何と言える？", a: ["経営効率が良い", "負債が多い", "株価が安い", "配当が少ない"], c: 0 },
         { q: "成行注文と指値注文、優先されるのは？", a: ["成行注文", "指値注文", "金額が大きい方", "注文が遅い方"], c: 0 },
         { q: "権利付最終日に株を保有していると得られるものは？", a: ["株主優待・配当の権利", "翌日の株価保証", "売却手数料の無料化", "議決権の喪失"], c: 0 },
-        
-        // 債券
         { q: "一般的に、市場金利が上昇すると債券価格はどうなる？", a: ["下落する", "上昇する", "変わらない", "倍になる"], c: 0 },
         { q: "格付けが低い債券（ジャンクボンド）の特徴は？", a: ["利回りが高く、リスクも高い", "利回りが低く、安全", "政府が保証している", "無利息である"], c: 0 },
         { q: "個人向け国債（変動10年）の金利の下限は年率何％？", a: ["0.05％", "0.01％", "0.1％", "0％"], c: 0 },
-        
-        // 投資信託
         { q: "投資信託の運用管理費用を何と呼ぶ？", a: ["信託報酬", "販売手数料", "信託財産留保額", "成約手数料"], c: 0 },
         { q: "インデックスファンドが目標とするのは？", a: ["市場平均（指数）との連動", "市場平均を大きく上回ること", "常にプラスの利益", "債券のみでの運用"], c: 0 },
         { q: "投資信託の解約時に支払う「ペナルティ」的な費用は？", a: ["信託財産留保額", "分配金", "基準価額", "購入時手数料"], c: 0 },
-        
-        // 経済指標・制度
         { q: "日本銀行が年4回公表する景気判断の調査は？", a: ["日銀短観", "GDP統計", "消費者物価指数", "家計調査"], c: 0 },
         { q: "GDP（国内総生産）に含まれないものは？", a: ["海外での日本企業の生産", "国内での外国企業の生産", "家計の消費", "政府の支出"], c: 0 },
         { q: "つみたてNISA（新NISAつみたて投資枠）の年間投資枠は？", a: ["120万円", "40万円", "240万円", "360万円"], c: 0 },
         { q: "新NISAの生涯投資枠の限度額は？", a: ["1800万円", "1200万円", "2000万円", "無制限"], c: 0 },
-        
-        // 外貨・その他
         { q: "1ドル100円が110円になった。これは？", a: ["円安・ドル高", "円高・ドル安", "円の価値が上がった", "デフレ"], c: 0 },
         { q: "外貨建て商品で、円貨での受取額が投資元本を下回るリスクは？", a: ["為替変動リスク", "信用リスク", "流動性リスク", "金利変動リスク"], c: 0 },
         { q: "ポートフォリオ運用において資産を分散させる主な目的は？", a: ["リスクの低減", "利益の最大化", "手数料の節約", "税金の回避"], c: 0 },
         { q: "「卵は一つのカゴに盛るな」という格言が意味するのは？", a: ["分散投資の重要性", "集中投資のすすめ", "現金の重要性", "早めの利益確定"], c: 0 },
-        { q: "デフレ（デフレーション）の説明として正しいのは？", a: ["物価が下がり、貨幣価値が上がる", "物価が上がり、貨幣価値が下がる", "景気が非常に良い状態", "金利が急上昇する状態"], c: 0 }
+        { q: "デフレ（デフレーション）の説明として正しいのは？", a: ["物価が下がり、貨幣価値が上がる", "物価が上がり、貨幣価値が下がる", "景気が非常に良い状態", "金利が急上昇する状態"], c: 0 },
+        { q: "表面利率2%、額面100円の債券を102円で購入し1年後に103円で売却した際の所有期間利回りは？", a: ["約2.94%", "2.00%", "3.00%", "1.00%"], c: 0 },
+        { q: "投資信託の基準価額が算出される頻度は？", a: ["1営業日に1回", "リアルタイム", "1週間に1回", "決算時のみ"], c: 0 },
+        { q: "東証株価指数（TOPIX）の算出方法は？", a: ["時価総額加重型", "修正平均株価型", "単純平均型", "出来高加重型"], c: 0 },
+        { q: "景気動向指数において、景気に遅れて動く指標を何という？", a: ["遅行指数", "先行指数", "一致指数", "基準指数"], c: 0 },
+        { q: "iDeCo（個人型確定拠出年金）の掛金の扱いは？", a: ["全額所得控除", "一部税額控除", "経費扱い", "非控除"], c: 0 }
     ];
 
     let quizData = [];
     let currentQuestion = 0;
     let points = 10000;
     let currentBet = 0;
-    const TOTAL_PLAY = 10; // 1回10問
+    const TOTAL_PLAY = 10;
 
     function initGame() {
         quizData = [...allQuestions].sort(() => Math.random() - 0.5).slice(0, TOTAL_PLAY);
@@ -295,29 +357,29 @@
         const rankText = document.getElementById("rankText");
 
         if (points <= 0) {
-            title.textContent = "💥 マージンコール（強制ロスカット）";
+            title.textContent = "💥 強制ロスカット（退場）";
             title.className = "gameover";
-            rankText.textContent = "💀 退場した個人投資家";
+            rankText.textContent = "💀 追証に追われる投資家";
         } else if (points < 10000) {
-            title.textContent = "📉 資産減少...";
-            rankText.textContent = "🔰 勉強中の投資家候補";
-        } else if (points < 30000) {
-            title.textContent = "📈 堅実な運用";
-            rankText.textContent = "🥉 FP3級レベルの投資家";
-        } else if (points < 100000) {
-            title.textContent = "🚀 素晴らしいリターン";
-            rankText.textContent = "🥈 プロ級の相場観";
+            title.textContent = "📉 資産を守りきれず...";
+            rankText.textContent = "🔰 まだまだ伸び代のある初心者";
+        } else if (points < 50000) {
+            title.textContent = "📈 堅実な資産形成";
+            rankText.textContent = "🥉 合格圏内のFP3級投資家";
+        } else if (points < 200000) {
+            title.textContent = "🚀 爆益達成！";
+            rankText.textContent = "🥈 市場を操る凄腕投資家";
         } else {
-            title.textContent = "👑 伝説の相場師";
-            rankText.textContent = "🥇 FPマスター・ウォーレン";
+            title.textContent = "👑 億り人確定";
+            rankText.textContent = "🥇 伝説のFPマスター";
             title.className = "win";
         }
     }
 
     function shareResult() {
-        const text = `【FP3級 投資クイズ】資産 ${points.toLocaleString()}pt 達成！ランク：${document.getElementById("rankText").textContent} 
-#FP3級 #投資クイズ`;
-        const url = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(text);
+        const rank = document.getElementById("rankText").textContent;
+        const text = `【FP3級 投資クイズ】資産 ${points.toLocaleString()}pt 達成！ランク：${rank}\n#FP3級 #投資クイズ #フリーターの投資日記\n`;
+        const url = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(text) + "&url=" + encodeURIComponent("https://invest-challenge.com/");
         window.open(url, '_blank');
     }
 
