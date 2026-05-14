@@ -1,246 +1,353 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>投資クイズゲーム</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family: "Segoe UI", sans-serif;
-    }
+<title>FP3級 投資クイズゲーム</title>
 
-    body{
-      background:#050505;
-      color:#00ff88;
-      min-height:100vh;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      padding:20px;
-    }
+<style>
 
-    .container{
-      width:100%;
-      max-width:700px;
-      background:#111;
-      border:1px solid #00ff88;
-      border-radius:20px;
-      padding:30px;
-      box-shadow:0 0 20px rgba(0,255,136,0.3);
-    }
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Segoe UI",sans-serif;
+}
 
-    h1{
-      text-align:center;
-      margin-bottom:20px;
-      font-size:2rem;
-      text-shadow:0 0 10px #00ff88;
-    }
+body{
+  background:#050505;
+  color:#00ff88;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+  transition:0.3s;
+}
 
-    .status{
-      display:flex;
-      justify-content:space-between;
-      margin-bottom:20px;
-      font-size:1.1rem;
-      padding:10px;
-      background:#0b0b0b;
-      border-radius:10px;
-    }
+.container{
+  width:100%;
+  max-width:850px;
+  background:#111;
+  border:1px solid #00ff88;
+  border-radius:20px;
+  padding:30px;
+  box-shadow:0 0 25px rgba(0,255,136,0.25);
+}
 
-    .question{
-      font-size:1.3rem;
-      margin-bottom:25px;
-      line-height:1.6;
-    }
+h1{
+  text-align:center;
+  margin-bottom:15px;
+  font-size:2rem;
+  text-shadow:0 0 10px #00ff88;
+}
 
-    .answers{
-      display:grid;
-      gap:15px;
-    }
+.subtitle{
+  text-align:center;
+  margin-bottom:25px;
+  color:#aaa;
+}
 
-    button{
-      border:none;
-      padding:15px;
-      border-radius:12px;
-      background:#1a1a1a;
-      color:#00ff88;
-      font-size:1rem;
-      cursor:pointer;
-      transition:0.2s;
-      border:1px solid #00ff88;
-    }
+.status{
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:20px;
+  background:#0b0b0b;
+  padding:15px;
+  border-radius:12px;
+}
 
-    button:hover{
-      background:#00ff88;
-      color:#000;
-      transform:translateY(-2px);
-      box-shadow:0 0 15px rgba(0,255,136,0.5);
-    }
+.question{
+  font-size:1.25rem;
+  line-height:1.7;
+  margin-bottom:25px;
+}
 
-    .bet-buttons{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:15px;
-      margin-top:20px;
-    }
+.answers{
+  display:grid;
+  gap:15px;
+}
 
-    .center{
-      text-align:center;
-    }
+button{
+  border:none;
+  padding:15px;
+  border-radius:12px;
+  background:#1a1a1a;
+  color:#00ff88;
+  border:1px solid #00ff88;
+  font-size:1rem;
+  cursor:pointer;
+  transition:0.2s;
+}
 
-    .result{
-      margin-top:20px;
-      font-size:1.2rem;
-      text-align:center;
-      min-height:40px;
-    }
+button:hover{
+  background:#00ff88;
+  color:#000;
+  transform:translateY(-2px);
+  box-shadow:0 0 15px rgba(0,255,136,0.5);
+}
 
-    .hidden{
-      display:none;
-    }
+.bet-buttons{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px;
+  margin-top:20px;
+}
 
-    .blog-btn{
-      margin-top:25px;
-      width:100%;
-      background:#00ff88;
-      color:#000;
-      font-weight:bold;
-    }
+.result{
+  margin-top:20px;
+  text-align:center;
+  min-height:40px;
+  font-size:1.2rem;
+}
 
-    .gameover{
-      color:#ff4444;
-      text-shadow:0 0 10px #ff4444;
-    }
+.hidden{
+  display:none;
+}
 
-    .win{
-      color:#00ff88;
-    }
-  </style>
+.center{
+  text-align:center;
+}
+
+.blog-btn{
+  width:100%;
+  margin-top:15px;
+  background:#00ff88;
+  color:#000;
+  font-weight:bold;
+}
+
+.win{
+  color:#00ff88;
+}
+
+.gameover{
+  color:#ff4444;
+  text-shadow:0 0 10px #ff4444;
+}
+
+.flash-red{
+  animation:flashRed 0.5s alternate 4;
+}
+
+.rank{
+  margin-top:20px;
+  font-size:1.3rem;
+}
+
+@keyframes flashRed{
+  from{
+    background:#050505;
+  }
+  to{
+    background:#550000;
+  }
+}
+
+@media(max-width:600px){
+
+  .bet-buttons{
+    grid-template-columns:1fr;
+  }
+
+}
+
+</style>
+
 </head>
+
 <body>
 
 <div class="container">
 
-  <h1>📈 投資クイズゲーム</h1>
+<h1>📈 FP3級 投資クイズゲーム</h1>
 
-  <div class="status">
-    <div>ポイント: <span id="points">10000</span>pt</div>
-    <div>問題: <span id="qnum">1</span>/5</div>
-  </div>
+<div class="subtitle">
+FP3級レベル対応・ランダム100問収録
+</div>
 
-  <div id="betScreen">
+<div class="status">
 
-    <div class="question center">
-      賭けポイントを選択してください
-    </div>
+<div>
+ポイント：
+<span id="points">10000</span>pt
+</div>
 
-    <div class="bet-buttons">
-      <button onclick="setBet(1000)">1,000pt</button>
-      <button onclick="setBet(3000)">3,000pt</button>
-      <button onclick="setBet(5000)">5,000pt</button>
-      <button onclick="setBet('all')">全額BET</button>
-    </div>
+<div>
+問題：
+<span id="qnum">1</span> /
+<span id="totalQuestions"></span>
+</div>
 
-  </div>
+</div>
 
-  <div id="quizScreen" class="hidden">
+<div id="betScreen">
 
-    <div class="question" id="question"></div>
+<div class="question center">
+賭けポイントを選択してください
+</div>
 
-    <div class="answers" id="answers"></div>
+<div class="bet-buttons">
 
-    <div class="result" id="result"></div>
+<button onclick="setBet(1000)">
+1,000pt
+</button>
 
-  </div>
+<button onclick="setBet(3000)">
+3,000pt
+</button>
 
-  <div id="endScreen" class="hidden center">
-    <h2 id="endTitle"></h2>
+<button onclick="setBet(5000)">
+5,000pt
+</button>
 
-    <p style="margin-top:20px; font-size:1.2rem;">
-      最終ポイント：<span id="finalPoints"></span>pt
-    </p>
+<button onclick="setBet(points)">
+💥 全額BET
+</button>
 
-    <button class="blog-btn"
-      onclick="window.open('https://invest-challenge.com/','_blank')">
-      投資をもっと学ぶなら：
-      フリーターの投資日記
-    </button>
+</div>
 
-    <button style="margin-top:15px;"
-      onclick="location.reload()">
-      もう一度遊ぶ
-    </button>
-  </div>
+</div>
+
+<div id="quizScreen" class="hidden">
+
+<div class="question" id="question"></div>
+
+<div class="answers" id="answers"></div>
+
+<div class="result" id="result"></div>
+
+</div>
+
+<div id="endScreen" class="hidden center">
+
+<h2 id="endTitle"></h2>
+
+<div class="rank" id="rankText"></div>
+
+<p style="margin-top:20px; font-size:1.2rem;">
+最終ポイント：
+<span id="finalPoints"></span>pt
+</p>
+
+<button class="blog-btn"
+onclick="window.open('https://invest-challenge.com/','_blank')">
+
+📘 フリーターの投資日記
+
+</button>
+
+<button class="blog-btn"
+onclick="shareResult()">
+
+🐦 Xでシェア
+
+</button>
+
+<button style="margin-top:15px;"
+onclick="location.reload()">
+
+🔄 もう一度遊ぶ
+
+</button>
+
+</div>
 
 </div>
 
 <script>
 
-const quizData = [
+const baseQuestions = [
 
-  {
-    question:"PERとは何を表す指標？",
-    answers:[
-      "株価収益率",
-      "自己資本比率",
-      "配当利回り",
-      "純利益"
-    ],
-    correct:0
-  },
+{
+question:"PERとは何を表す指標？",
+answers:["株価収益率","自己資本比率","配当利回り","純利益"],
+correct:0
+},
 
-  {
-    question:"PBRが1倍未満の場合、一般的に何を意味する？",
-    answers:[
-      "割高",
-      "企業価値が解散価値以下",
-      "無配当",
-      "赤字確定"
-    ],
-    correct:1
-  },
+{
+question:"PBRが1倍未満の場合、一般的に何を意味する？",
+answers:["割高","企業価値が解散価値以下","無配当","赤字確定"],
+correct:1
+},
 
-  {
-    question:"複利の最大の特徴は？",
-    answers:[
-      "税金がかからない",
-      "元本保証",
-      "利益にも利益がつく",
-      "損失が出ない"
-    ],
-    correct:2
-  },
+{
+question:"複利の特徴として正しいものは？",
+answers:["利益にも利益がつく","元本保証","損失なし","税金ゼロ"],
+correct:0
+},
 
-  {
-    question:"分散投資の目的として最も適切なのは？",
-    answers:[
-      "短期で10倍株を狙う",
-      "リスクを減らす",
-      "税金をゼロにする",
-      "株価を操作する"
-    ],
-    correct:1
-  },
+{
+question:"NISA制度の特徴は？",
+answers:["利益非課税","元本保証","税率50%","損失なし"],
+correct:0
+},
 
-  {
-    question:"長期投資で重要視されやすいものは？",
-    answers:[
-      "毎日の値動き",
-      "噂",
-      "企業の成長力",
-      "SNSの流行"
-    ],
-    correct:2
-  }
+{
+question:"分散投資の主な目的は？",
+answers:["リスク低減","株価操作","短期利益","税金ゼロ"],
+correct:0
+},
+
+{
+question:"ETFとは？",
+answers:["上場投資信託","定期預金","暗号資産","保険"],
+correct:0
+},
+
+{
+question:"損切りの目的は？",
+answers:["損失拡大防止","税金回避","利益固定","株価操作"],
+correct:0
+},
+
+{
+question:"営業利益とは？",
+answers:["本業利益","税引後利益","借金","資産"],
+correct:0
+},
+
+{
+question:"株価が急落することを何という？",
+answers:["暴騰","暴落","利上げ","増配"],
+correct:1
+},
+
+{
+question:"長期投資で重要視されやすいものは？",
+answers:["企業成長","SNS","噂","デイトレ"],
+correct:0
+}
 
 ];
+
+const quizData = [];
+
+for(let i = 0; i < 10; i++){
+
+  baseQuestions.forEach(q => {
+
+    quizData.push({
+      question:q.question,
+      answers:[...q.answers],
+      correct:q.correct
+    });
+
+  });
+
+}
+
+quizData.sort(() => Math.random() - 0.5);
 
 let currentQuestion = 0;
 let points = 10000;
 let currentBet = 0;
+
+document.getElementById("totalQuestions").textContent =
+quizData.length;
 
 const pointsEl = document.getElementById("points");
 const qnumEl = document.getElementById("qnum");
@@ -250,137 +357,189 @@ const resultEl = document.getElementById("result");
 
 function setBet(amount){
 
-  if(amount === 'all'){
-    currentBet = points;
-  }else{
-    currentBet = amount;
-  }
+currentBet = amount;
 
-  if(currentBet > points){
-    alert("ポイントが不足しています！");
-    return;
-  }
+if(currentBet > points){
 
-  document.getElementById("betScreen").classList.add("hidden");
-  document.getElementById("quizScreen").classList.remove("hidden");
+alert("ポイント不足です！");
+return;
 
-  loadQuestion();
+}
+
+document.getElementById("betScreen")
+.classList.add("hidden");
+
+document.getElementById("quizScreen")
+.classList.remove("hidden");
+
+loadQuestion();
+
 }
 
 function loadQuestion(){
 
-  resultEl.textContent = "";
+resultEl.textContent = "";
 
-  const q = quizData[currentQuestion];
+const q = quizData[currentQuestion];
 
-  questionEl.textContent = q.question;
+questionEl.textContent = q.question;
 
-  answersEl.innerHTML = "";
+answersEl.innerHTML = "";
 
-  q.answers.forEach((answer,index)=>{
+q.answers.forEach((answer,index)=>{
 
-    const btn = document.createElement("button");
+const btn = document.createElement("button");
 
-    btn.textContent = answer;
+btn.textContent = answer;
 
-    btn.onclick = ()=>checkAnswer(index);
+btn.onclick = ()=>checkAnswer(index);
 
-    answersEl.appendChild(btn);
+answersEl.appendChild(btn);
 
-  });
+});
 
 }
 
 function checkAnswer(selected){
 
-  const q = quizData[currentQuestion];
+const q = quizData[currentQuestion];
 
-  const buttons = answersEl.querySelectorAll("button");
+const buttons =
+answersEl.querySelectorAll("button");
 
-  buttons.forEach(btn=>btn.disabled = true);
+buttons.forEach(btn=>btn.disabled = true);
 
-  if(selected === q.correct){
+if(selected === q.correct){
 
-    points += currentBet;
+points += currentBet;
 
-    resultEl.innerHTML =
-      `✅ 正解！ +${currentBet}pt`;
+resultEl.innerHTML =
+`✅ 正解！ +${currentBet}pt`;
 
-    resultEl.className = "result win";
+resultEl.className = "result win";
 
-  }else{
+}else{
 
-    points -= currentBet;
+points -= currentBet;
 
-    resultEl.innerHTML =
-      `❌ 不正解！ -${currentBet}pt`;
+resultEl.innerHTML =
+`❌ 不正解！ -${currentBet}pt`;
 
-    resultEl.className = "result gameover";
+resultEl.className = "result gameover";
 
-  }
+document.body.classList.add("flash-red");
 
-  pointsEl.textContent = points;
+setTimeout(()=>{
 
-  setTimeout(()=>{
+document.body.classList.remove("flash-red");
 
-    if(points <= 0){
+},1000);
 
-      endGame(false);
-      return;
+}
 
-    }
+pointsEl.textContent = points;
 
-    currentQuestion++;
+setTimeout(()=>{
 
-    if(currentQuestion >= quizData.length){
+if(points <= 0){
 
-      endGame(true);
+endGame(false);
+return;
 
-    }else{
+}
 
-      qnumEl.textContent = currentQuestion + 1;
+currentQuestion++;
 
-      document.getElementById("quizScreen")
-        .classList.add("hidden");
+if(currentQuestion >= quizData.length){
 
-      document.getElementById("betScreen")
-        .classList.remove("hidden");
+endGame(true);
 
-    }
+}else{
 
-  },1500);
+qnumEl.textContent =
+currentQuestion + 1;
+
+document.getElementById("quizScreen")
+.classList.add("hidden");
+
+document.getElementById("betScreen")
+.classList.remove("hidden");
+
+}
+
+},1000);
 
 }
 
 function endGame(clear){
 
-  document.getElementById("quizScreen")
-    .classList.add("hidden");
+document.getElementById("quizScreen")
+.classList.add("hidden");
 
-  document.getElementById("betScreen")
-    .classList.add("hidden");
+document.getElementById("betScreen")
+.classList.add("hidden");
 
-  document.getElementById("endScreen")
-    .classList.remove("hidden");
+document.getElementById("endScreen")
+.classList.remove("hidden");
 
-  document.getElementById("finalPoints")
-    .textContent = points;
+document.getElementById("finalPoints")
+.textContent = points;
 
-  const title = document.getElementById("endTitle");
+const title =
+document.getElementById("endTitle");
 
-  if(clear){
+if(clear){
 
-    title.innerHTML = "🎉 ゲームクリア！";
+title.innerHTML =
+"🎉 FP3級チャレンジクリア！";
 
-    title.className = "win";
+title.className = "win";
 
-  }else{
+}else{
 
-    title.innerHTML = "💥 ゲームオーバー";
+title.innerHTML =
+"💥 投資家退場";
 
-    title.className = "gameover";
+title.className = "gameover";
 
-  }
+}
+
+let rank = "";
+
+if(points <= 0){
+
+rank = "💀 退場投資家";
+
+}else if(points < 10000){
+
+rank = "📘 投資初心者";
+
+}else if(points < 30000){
+
+rank = "📈 堅実投資家";
+
+}else{
+
+rank = "🚀 FP3級マスター";
+
+}
+
+document.getElementById("rankText")
+.innerHTML = rank;
+
+}
+
+function shareResult(){
+
+const text =
+`FP3級 投資クイズゲームで ${points}pt 達成！
+https://05j1155yuki-stack.github.io/toushi-game/`;
+
+const url =
+"https://twitter.com/intent/tweet?text=" +
+encodeURIComponent(text);
+
+window.open(url,'_blank');
 
 }
 
