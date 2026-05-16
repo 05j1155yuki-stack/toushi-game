@@ -33,12 +33,12 @@
             box-shadow: 0 0 25px rgba(0, 255, 136, 0.25);
         }
 
-        /* 誘導ヘッダー */
+        /* 誘導ヘッダー（3つのボタンが綺麗に並ぶよう調整） */
         .top-nav {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 12px;
+            margin-bottom: 25px;
             flex-wrap: wrap;
         }
 
@@ -47,7 +47,7 @@
             font-size: 0.85rem;
             color: #00ff88;
             border: 1px solid #00ff88;
-            padding: 5px 12px;
+            padding: 6px 14px;
             border-radius: 20px;
             transition: 0.3s;
         }
@@ -57,13 +57,30 @@
             color: #000;
         }
 
+        /* YouTube専用の赤枠スタイル */
+        .nav-link-youtube {
+            text-decoration: none;
+            font-size: 0.85rem;
+            color: #ff4444;
+            border: 1px solid #ff4444;
+            padding: 6px 14px;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .nav-link-youtube:hover {
+            background: #ff4444;
+            color: #fff;
+            box-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+        }
+
         /* 決算マタギ編への新設ボタン用CSS */
         .nav-link-kessan {
             text-decoration: none;
             font-size: 0.85rem;
             color: #00e5ff;
             border: 1px solid #00e5ff;
-            padding: 5px 12px;
+            padding: 6px 14px;
             border-radius: 20px;
             transition: 0.3s;
         }
@@ -198,6 +215,7 @@
 <div class="container">
     <nav class="top-nav">
         <a href="https://invest-challenge.com/" target="_blank" class="nav-link">🌐 投資日記ブログ</a>
+        <a href="https://www.youtube.com/@フリーターの投資日記?sub_confirmation=1" target="_blank" class="nav-link-youtube">📺 YouTube登録</a>
         <a href="./kessan-mode.html" class="nav-link-kessan">📊 個別株・決算マタギ編へ</a>
     </nav>
 
