@@ -57,6 +57,23 @@
             color: #000;
         }
 
+        /* 決算マタギ編への新設ボタン用CSS */
+        .nav-link-kessan {
+            text-decoration: none;
+            font-size: 0.85rem;
+            color: #00e5ff;
+            border: 1px solid #00e5ff;
+            padding: 5px 12px;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .nav-link-kessan:hover {
+            background: #00e5ff;
+            color: #000;
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+        }
+
         h1 {
             text-align: center;
             margin-bottom: 5px;
@@ -160,11 +177,13 @@
         .win { color: #00ff88; }
         .gameover { color: #ff4444; text-shadow: 0 0 10px #ff4444; }
 
-        @keyframes flashRed {
-            from { background: #050505; }
-            to { background: #550000; }
+        @media (prefers-reduced-motion: no-preference) {
+            @keyframes flashRed {
+                from { background: #050505; }
+                to { background: #550000; }
+            }
+            .flash-red { animation: flashRed 0.5s alternate 4; }
         }
-        .flash-red { animation: flashRed 0.5s alternate 4; }
 
         .rank { margin-top: 20px; font-size: 1.5rem; font-weight: bold; }
 
@@ -179,7 +198,7 @@
 <div class="container">
     <nav class="top-nav">
         <a href="https://invest-challenge.com/" target="_blank" class="nav-link">🌐 投資日記ブログ</a>
-        <a href="https://www.youtube.com/@フリーターの投資日記?sub_confirmation=1" target="_blank" class="nav-link">📺 YouTube登録</a>
+        <a href="./kessan-mode.html" class="nav-link-kessan">📊 個別株・決算マタギ編へ</a>
     </nav>
 
     <h1>📈 FP3級 投資クイズゲーム</h1>
@@ -190,7 +209,6 @@
         <div>進捗：<span id="qnum">1</span> / 10</div>
     </div>
 
-    <!-- BET画面 -->
     <div id="betScreen">
         <div class="question center">次の案件にいくらBETしますか？</div>
         <div class="bet-buttons">
@@ -201,14 +219,12 @@
         </div>
     </div>
 
-    <!-- クイズ画面 -->
     <div id="quizScreen" class="hidden">
         <div class="question" id="question"></div>
         <div class="answers" id="answers"></div>
         <div class="result" id="result"></div>
     </div>
 
-    <!-- 終了画面 -->
     <div id="endScreen" class="hidden center">
         <h2 id="endTitle"></h2>
         <div class="rank" id="rankText"></div>
@@ -256,7 +272,7 @@
         { q: "1ドル100円が110円になった。これは？", a: ["円安・ドル高", "円高・ドル安", "円の価値が上がった", "デフレ"], c: 0 },
         { q: "外貨建て商品で、円貨での受取額が投資元本を下回るリスクは？", a: ["為替変動リスク", "信用リスク", "流動性リスク", "金利変動リスク"], c: 0 },
         { q: "ポートフォリオ運用において資産を分散させる主な目的は？", a: ["リスクの低減", "利益の最大化", "手数料の節約", "税金の回避"], c: 0 },
-        { q: "「卵は一つのカゴに盛るな」という格言が意味するのは？", a: ["分散投資の重要性", "集中投資のすすめ", "現金の重要性", "早めの利益確定"], c: 0 },
+        { q: "「卵は一つのカゴに盛るな」という格言が意味するのは？", a: ["分散投資の重要性", "集中投資のすすめ", "現現金重要性", "早めの利益確定"], c: 0 },
         { q: "デフレ（デフレーション）の説明として正しいのは？", a: ["物価が下がり、貨幣価値が上がる", "物価が上がり、貨幣価値が下がる", "景気が非常に良い状態", "金利が急上昇する状態"], c: 0 },
         { q: "表面利率2%、額面100円の債券を102円で購入し1年後に103円で売却した際の所有期間利回りは？", a: ["約2.94%", "2.00%", "3.00%", "1.00%"], c: 0 },
         { q: "投資信託の基準価額が算出される頻度は？", a: ["1営業日に1回", "リアルタイム", "1週間に1回", "決算時のみ"], c: 0 },
