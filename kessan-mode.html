@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>個別株・決算マタギ編 | フリーターの投資日記</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+        }
+
+        body {
+            background: #050b14;
+            color: #00e5ff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            transition: 0.3s;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 850px;
+            background: #0b132b;
+            border: 1px solid #00e5ff;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 0 25px rgba(0, 229, 255, 0.25);
+        }
+
+        .top-nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            font-size: 0.85rem;
+            color: #00e5ff;
+            border: 1px solid #00e5ff;
+            padding: 5px 12px;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .nav-link:hover {
+            background: #00e5ff;
+            color: #000;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 5px;
+            font-size: 1.8rem;
+            text-shadow: 0 0 10px #00e5ff;
+            color: #fff;
+        }
+
+        .subtitle {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #8c9eff;
+            font-size: 0.9rem;
+        }
+
+        .status {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 20px;
+            background: #1c2541;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid #3a506b;
+        }
+
+        .company-badge {
+            display: inline-block;
+            background: #3a506b;
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .question {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .answers {
+            display: grid;
+            gap: 12px;
+        }
+
+        button {
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            background: #1c2541;
+            color: #00e5ff;
+            border: 1px solid #00e5ff;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: left;
+        }
+
+        button:hover {
+            background: #00e5ff;
+            color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.5);
+        }
+
+        .bet-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .result {
+            margin-top: 20px;
+            text-align: center;
+            min-height: 40px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            line-height: 1.5;
+        }
+
+        .hidden { display: none; }
+        .center { text-align: center; }
+
+        .promo-section {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px dashed #3a506b;
+        }
+
+        .btn-cta {
+            display: block;
+            width: 100%;
+            margin-top: 12px;
+            padding: 15px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: bold;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .btn-blog { background: #00e5ff; color: #000 !important; }
+        .btn-youtube { background: #ff0000; color: #fff !important; border: none; }
+        .btn-x { background: #fff; color: #000 !important; border: none; }
+
+        .win { color: #00ff88; }
+        .gameover { color: #ff4444; text-shadow: 0 0 10px #ff4444; }
+
+        @keyframes flashRed {
+            from { background: #050b14; }
+            to { background: #550000; }
+        }
+        .flash-red { animation: flashRed 0.5s alternate 4; }
+
+        .rank { margin-top: 20px; font-size: 1.5rem; font-weight: bold; color: #fff; }
+
+        @media(max-width:600px){
+            .bet-buttons { grid-template-columns: 1fr; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <nav class="top-nav">
+        <a href="https://invest-challenge.com/" target="_blank" class="nav-link">🌐 投資日記ブログ</a>
+        <a href="./index.html" class="nav-link" style="border-color: #ffd700; color: #ffd700;">🔰 FP3級モードへ</a>
+    </nav>
+
+    <h1>📊 個別株・決算マタギ編</h1>
+    <div class="subtitle">半導体・インフラの決算を予測し、巨万の富を築け！</div>
+
+    <div class="status">
+        <div>資金：<span id="points">10000</span> pt</div>
+        <div>取引：<span id="qnum">1</span> / 10</div>
+    </div>
+
+    <div id="betScreen">
+        <div class="question center">この企業の決算発表に、いくら張りますか？</div>
+        <div class="bet-buttons">
+            <button onclick="setBet(1000)">1,000pt (打診買い)</button>
+            <button onclick="setBet(3000)">3,000pt (主力投資)</button>
+            <button onclick="setBet(5000)">5,000pt (集中投資)</button>
+            <button onclick="setBet(points)" style="border-color:#ff4444; color:#ff4444;">💥 ALL-IN (全力マタギ)</button>
+        }
+        </div>
+    </div>
+
+    <div id="quizScreen" class="hidden">
+        <div id="companyBadge" class="company-badge"></div>
+        <div class="question" id="question"></div>
+        <div class="answers" id="answers"></div>
+        <div class="result" id="result"></div>
+    </div>
+
+    <div id="endScreen" class="hidden center">
+        <h2 id="endTitle"></h2>
+        <div class="rank" id="rankText"></div>
+        <p style="margin-top:20px; font-size:1.2rem;">最終運用資産：<span id="finalPoints"></span> pt</p>
+        
+        <div class="promo-section">
+            <p style="color:#8c9eff; font-size:0.9rem; margin-bottom:10px;">＼ 実戦の個別株ファンダ分析をもっと学ぶ ／</p>
+            
+            <a href="https://invest-challenge.com/" target="_blank" class="btn-cta btn-blog">
+                📘 ブログ「フリーターの投資日記」で最新決算記事を読む
+            </a>
+            
+            <a href="javascript:void(0)" onclick="shareResult()" class="btn-cta btn-x">
+                𝕏 決算マタギの結果をシェアする
+            </a>
+        </div>
+
+        <button style="margin-top:20px; width:100%; border-color:#3a506b; color:#8c9eff;" onclick="location.reload()">
+            🔄 次の決算期（リトライ）へ
+        </button>
+    </div>
+</div>
+
+<script>
+    const allQuestions = [
+        { encode: "6146 ディスコ", q: "ディスコ(6146)の利益の源泉である、半導体を切断・研削するための高利益率な『消耗品』の名称は？", a: ["ダイシングブレード（刃）", "シリコンウェハ", "テストプローブ", "フォトマスク"], c: 0 },
+        { encode: "8035 東京エレクトロン", q: "東京エレクトロン(8035)が世界シェア100%近くを誇る、ウェハに感光剤を塗布して現像する前工程装置は？", a: ["コーター・デベロッパー", "ドライエッチング装置", "ダイサー", "洗浄装置"], c: 0 },
+        { encode: "6857 アドバンテスト", q: "アドバンテスト(6857)の主力製品であるATE。NVIDIAのGPU出荷前検査などで爆発的な需要があるこの装置の正式名称は？", a: ["自動テスト装置", "薄膜形成装置", "光ファイバー融着機", "超精密変圧器"], c: 0 },
+        { encode: "5802 住友電気工業", q: "住友電工(5802)が手掛け、AIデータセンター間の超高速・大容量通信を支えるインフラ素材は？", a: ["光ファイバーケーブル", "SiCパワー半導体", "ワイヤーハーネス", "超電導モーター"], c: 0 },
+        { encode: "5805 SWCC", q: "SWCC(5805)の最新決算で利益率が急改善している背景にある、生成AI×データセンター特需の対象製品は？", a: ["高効率電力ケーブル・防災電線", "自動車用ワイヤー", "スマホ用銅箔", "半導体用特殊ガス"], c: 0 },
+        { encode: "6622 ダイヘン", q: "ダイヘン(6622)が誇る『二刀流』のビジネスモデル。クリーンルーム用ロボットと、もう一つの柱である電力インフラ機器は？", a: ["変圧器（トランス）", "パワーコンディショナ", "リチウムイオン電池", "ガスタービン"], c: 0 },
+        { encode: "285A キオクシアHD", q: "キオクシアHD(285A)の主戦場であり、生成AIサーバーやスマホのデータ保存に必須の不揮発性メモリの名称は？", a: ["NANDフラッシュメモリ", "DRAM", "HBM", "SRAM"], c: 0 },
+        { encode: "📊 マクロ経済", q: "AIデータセンターの建設計画が世界中で激増した際、半導体製造装置株の後を追って「ドミノ倒し」のように物色されるセクターは？", a: ["電力・送電インフラ関連株", "旅行・インバウンド関連株", "ディフェンシブ食品株", "地方銀行株"], c: 0 },
+        { encode: "💡 ファンダメンタルズ", q: "ディスコ等の超高収益企業を分析する際、売上高から製造原価を引いた「売上総利益」の割合を示す指標は？", a: ["粗利益率（グロスマージン）", "PER", "PBR", "自己資本比率"], c: 0 },
+        { encode: "⚙️ 半導体トレンド", q: "NVIDIA製GPUの処理速度に追いつくために、チップを薄く削って垂直に積層する、ディスコのグラインダ技術が必須の最先端爆速メモリは？", a: ["HBM（高帯域幅メモリ）", "SDカード", "DDR4メモリ", "レジスタ"], c: 0 }
+    ];
+
+    let quizData = [];
+    let currentQuestion = 0;
+    let points = 10000;
+    let currentBet = 0;
+    const TOTAL_PLAY = 10;
+
+    function initGame() {
+        quizData = [...allQuestions].sort(() => Math.random() - 0.5).slice(0, TOTAL_PLAY);
+        updateDisplay();
+    }
+
+    function updateDisplay() {
+        document.getElementById("points").textContent = points.toLocaleString();
+        document.getElementById("qnum").textContent = currentQuestion + 1;
+    }
+
+    function setBet(amount) {
+        if (amount > points) {
+            alert("資金が足りません！");
+            return;
+        }
+        currentBet = amount;
+        document.getElementById("betScreen").classList.add("hidden");
+        document.getElementById("quizScreen").classList.remove("hidden");
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        const resultEl = document.getElementById("result");
+        resultEl.textContent = "";
+        resultEl.className = "result";
+        
+        const q = quizData[currentQuestion];
+        document.getElementById("companyBadge").textContent = q.encode;
+        document.getElementById("question").textContent = q.q;
+        
+        const answersEl = document.getElementById("answers");
+        answersEl.innerHTML = "";
+        
+        q.a.forEach((ans, idx) => {
+            const btn = document.createElement("button");
+            btn.textContent = `${idx + 1}. ${ans}`;
+            btn.onclick = () => checkAnswer(idx);
+            answersEl.appendChild(btn);
+        });
+    }
+
+    function checkAnswer(selected) {
+        const q = quizData[currentQuestion];
+        const buttons = document.getElementById("answers").querySelectorAll("button");
+        buttons.forEach(b => b.disabled = true);
+
+        const resultEl = document.getElementById("result");
+
+        if (selected === q.c) {
+            points += currentBet;
+            resultEl.innerHTML = `🔥 決算発表：好材料視！ストップ高！<br><span class="win">+${currentBet.toLocaleString()}pt</span>`;
+            resultEl.className = "result win";
+        } else {
+            points -= currentBet;
+            resultEl.innerHTML = `📉 決算発表：コンセンサス未達で急落！<br><span class="gameover">-${currentBet.toLocaleString()}pt</span><br><small style="color:#aaa;">正解：${q.a[q.c]}</small>`;
+            resultEl.className = "result gameover";
+            document.body.classList.add("flash-red");
+            setTimeout(() => document.body.classList.remove("flash-red"), 800);
+        }
+
+        updateDisplay();
+
+        setTimeout(() => {
+            if (points <= 0) {
+                endGame(false);
+                return;
+            }
+            currentQuestion++;
+            if (currentQuestion >= TOTAL_PLAY) {
+                endGame(true);
+            } else {
+                document.getElementById("quizScreen").classList.add("hidden");
+                document.getElementById("betScreen").classList.remove("hidden");
+            }
+        }, 3000); // 演出を見せるため3秒待機
+    }
+
+    function endGame(clear) {
+        document.getElementById("quizScreen").classList.add("hidden");
+        document.getElementById("betScreen").classList.add("hidden");
+        document.getElementById("endScreen").classList.remove("hidden");
+        
+        document.getElementById("finalPoints").textContent = points.toLocaleString();
+        const title = document.getElementById("endTitle");
+        const rankText = document.getElementById("rankText");
+
+        if (points <= 0) {
+            title.textContent = "💥 破産・市場退場";
+            title.className = "gameover";
+            rankText.textContent = "💀 無謀なイナゴ投資家";
+        } else if (points < 10000) {
+            title.textContent = "損切り貧乏に...";
+            rankText.textContent = "🔰 相場の波に飲まれた養分";
+        } else if (points < 40000) {
+            title.textContent = "利小損大の壁";
+            rankText.textContent = "🥉 コツコツドカン型トレーダー";
+        } else if (points < 150000) {
+            title.textContent = "👑 機関投資家レベル";
+            rankText.textContent = "🥈 神がかり的なファンダ分析官";
+        } else {
+            title.textContent = "🚀 伝説の相場師";
+            rankText.textContent = "🥇 2億円の航路を制した覇者";
+            title.className = "win";
+        }
+    }
+
+    function shareResult() {
+        const rank = document.getElementById("rankText").textContent;
+        const text = `【個別株・決算マタギクイズ】資金 ${points.toLocaleString()}pt に到達！ランク：${rank}\n#株式投資 #決算分析 #フリーターの投資日記\n`;
+        const url = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(text) + "&url=" + encodeURIComponent("https://invest-challenge.com/");
+        window.open(url, '_blank');
+    }
+
+    initGame();
+</script>
+
+</body>
+</html>
