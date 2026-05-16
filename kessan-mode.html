@@ -36,7 +36,7 @@
         .top-nav {
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 12px;
             margin-bottom: 20px;
             flex-wrap: wrap;
         }
@@ -54,6 +54,23 @@
         .nav-link:hover {
             background: #00e5ff;
             color: #000;
+        }
+
+        /* ヘッダー用YouTube専用スタイリング */
+        .nav-link-youtube {
+            text-decoration: none;
+            font-size: 0.85rem;
+            color: #ff4444;
+            border: 1px solid #ff4444;
+            padding: 5px 12px;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .nav-link-youtube:hover {
+            background: #ff4444;
+            color: #fff;
+            box-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
         }
 
         h1 {
@@ -163,6 +180,12 @@
             transition: 0.3s;
         }
 
+        .btn-cta:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
         .btn-blog { background: #00e5ff; color: #000 !important; }
         .btn-youtube { background: #ff0000; color: #fff !important; border: none; }
         .btn-x { background: #fff; color: #000 !important; border: none; }
@@ -189,6 +212,7 @@
 <div class="container">
     <nav class="top-nav">
         <a href="https://invest-challenge.com/" target="_blank" class="nav-link">🌐 投資日記ブログ</a>
+        <a href="https://www.youtube.com/@フリーターの投資日記?sub_confirmation=1" target="_blank" class="nav-link-youtube">📺 YouTubeチャンネル登録</a>
         <a href="./index.html" class="nav-link" style="border-color: #ffd700; color: #ffd700;">🔰 FP3級モードへ</a>
     </nav>
 
@@ -207,7 +231,6 @@
             <button onclick="setBet(3000)">3,000pt (主力投資)</button>
             <button onclick="setBet(5000)">5,000pt (集中投資)</button>
             <button onclick="setBet(points)" style="border-color:#ff4444; color:#ff4444;">💥 ALL-IN (全力マタギ)</button>
-        
         </div>
     </div>
 
@@ -228,6 +251,10 @@
             
             <a href="https://invest-challenge.com/" target="_blank" class="btn-cta btn-blog">
                 📘 ブログ「フリーターの投資日記」で最新決算記事を読む
+            </a>
+
+            <a href="https://www.youtube.com/@フリーターの投資日記?sub_confirmation=1" target="_blank" class="btn-cta btn-youtube">
+                ▶️ YouTube「フリーターの投資日記」をチャンネル登録する
             </a>
             
             <a href="javascript:void(0)" onclick="shareResult()" class="btn-cta btn-x">
@@ -250,7 +277,7 @@
         { encode: "5805 SWCC", q: "SWCC(5805)の最新決算で利益率が急改善している背景にある、生成AI×データセンター特需の対象製品は？", a: ["高効率電力ケーブル・防災電線", "自動車用ワイヤー", "スマホ用銅箔", "半導体用特殊ガス"], c: 0 },
         { encode: "6622 ダイヘン", q: "ダイヘン(6622)が誇る『二刀流』のビジネスモデル。クリーンルーム用ロボットと、もう一つの柱である電力インフラ機器は？", a: ["変圧器（トランス）", "パワーコンディショナ", "リチウムイオン電池", "ガスタービン"], c: 0 },
         { encode: "285A キオクシアHD", q: "キオクシアHD(285A)の主戦場であり、生成AIサーバーやスマホのデータ保存に必須の不揮発性メモリの名称は？", a: ["NANDフラッシュメモリ", "DRAM", "HBM", "SRAM"], c: 0 },
-        { encode: "📊 マクロ経済", q: "AIデータセンターの建設計画が世界中で激増した際、半導体製造装置株の後を追って「ドミノ倒し」のように物色されるセクターは？", a: ["電力・送電インフラ関連株", "旅行・インバウンド関連株", "ディフェンシブ食品株", "地方銀行株"], c: 0 },
+        { encode: "📊 マクロ経済", q: "AIデータセンターの建建設が世界中で激増した際、半導体製造装置株の後を追って「ドミノ倒し」のように物色されるセクターは？", a: ["電力・送電インフラ関連株", "旅行・インバウンド関連株", "ディフェンシブ食品株", "地方銀行株"], c: 0 },
         { encode: "💡 ファンダメンタルズ", q: "ディスコ等の超高収益企業を分析する際、売上高から製造原価を引いた「売上総利益」の割合を示す指標は？", a: ["粗利益率（グロスマージン）", "PER", "PBR", "自己資本比率"], c: 0 },
         { encode: "⚙️ 半導体トレンド", q: "NVIDIA製GPUの処理速度に追いつくために、チップを薄く削って垂直に積層する、ディスコのグラインダ技術が必須の最先端爆速メモリは？", a: ["HBM（高帯域幅メモリ）", "SDカード", "DDR4メモリ", "レジスタ"], c: 0 }
     ];
@@ -335,7 +362,7 @@
                 document.getElementById("quizScreen").classList.add("hidden");
                 document.getElementById("betScreen").classList.remove("hidden");
             }
-        }, 3000); // 演出を見せるため3秒待機
+        }, 3000);
     }
 
     function endGame(clear) {
