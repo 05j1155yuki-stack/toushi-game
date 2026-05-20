@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>個別株・決算マタギ編 | フリーターの投資日記</title>
+<title>個別株・決算マタギ編 Ultimate | フリーターの投資日記</title>
 
 <style>
 *{
@@ -25,7 +25,7 @@ body{
 
 .container{
     width:100%;
-    max-width:850px;
+    max-width:900px;
     background:#0b132b;
     border:1px solid #00e5ff;
     border-radius:20px;
@@ -92,15 +92,41 @@ h1{
     text-align:center;
     margin-bottom:25px;
     color:#8c9eff;
+    line-height:1.6;
 }
 
 .status{
     display:flex;
     justify-content:space-between;
+    gap:10px;
     margin-bottom:20px;
     background:#1c2541;
     padding:15px;
     border-radius:12px;
+    flex-wrap:wrap;
+}
+
+.status div{
+    font-weight:bold;
+}
+
+.market-box{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:12px;
+    padding:15px;
+    margin-bottom:20px;
+}
+
+.market-title{
+    color:#fff;
+    margin-bottom:10px;
+    font-weight:bold;
+}
+
+.market-news{
+    color:#8c9eff;
+    line-height:1.7;
 }
 
 .company-badge{
@@ -116,7 +142,7 @@ h1{
 
 .question{
     font-size:1.2rem;
-    line-height:1.6;
+    line-height:1.7;
     margin-bottom:25px;
     color:#fff;
     font-weight:bold;
@@ -145,6 +171,11 @@ button:hover{
     color:#000;
 }
 
+button:disabled{
+    opacity:0.7;
+    cursor:not-allowed;
+}
+
 .bet-buttons{
     display:grid;
     grid-template-columns:repeat(2,1fr);
@@ -154,9 +185,10 @@ button:hover{
 .result{
     margin-top:20px;
     text-align:center;
-    min-height:40px;
+    min-height:60px;
     font-size:1.1rem;
     font-weight:bold;
+    line-height:1.8;
 }
 
 .hidden{
@@ -182,65 +214,166 @@ button:hover{
     color:#fff;
 }
 
-/* 終了画面用の特別ナビゲーションボックス */
-.cta-box {
-    margin-top: 30px;
-    background: #1c2541;
-    padding: 20px;
-    border-radius: 15px;
-    border: 1px dashed #8c9eff;
+.candle{
+    width:60px;
+    height:120px;
+    margin:20px auto;
+    position:relative;
 }
 
-.cta-title {
-    font-size: 1.1rem;
-    color: #fff;
-    margin-bottom: 15px;
-    font-weight: bold;
+.candle::before{
+    content:"";
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    width:4px;
+    height:120px;
+    background:#ccc;
 }
 
-.cta-buttons {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
+.bull{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    width:35px;
+    height:70px;
+    background:#00ff88;
+    bottom:10px;
+    animation:pump 0.5s infinite alternate;
 }
 
-.cta-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    padding: 15px;
-    border-radius: 10px;
-    font-weight: bold;
-    font-size: 0.95rem;
-    transition: 0.2s;
+.bear{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    width:35px;
+    height:70px;
+    background:#ff4444;
+    top:10px;
+    animation:dump 0.5s infinite alternate;
 }
 
-.cta-blog {
-    background: transparent;
-    color: #00e5ff;
-    border: 1px solid #00e5ff;
+@keyframes pump{
+    from{transform:translateX(-50%) scaleY(1);}
+    to{transform:translateX(-50%) scaleY(1.1);}
 }
 
-.cta-blog:hover {
-    background: #00e5ff;
-    color: #000;
+@keyframes dump{
+    from{transform:translateX(-50%) scaleY(1);}
+    to{transform:translateX(-50%) scaleY(0.9);}
 }
 
-.cta-yt {
-    background: transparent;
-    color: #ff4444;
-    border: 1px solid #ff4444;
+.risk-box{
+    margin-bottom:20px;
 }
 
-.cta-yt:hover {
-    background: #ff4444;
-    color: #fff;
+.risk-title{
+    color:#fff;
+    margin-bottom:10px;
+    font-weight:bold;
 }
 
-@media(max-width:600px){
-    .bet-buttons, .cta-buttons{
+.risk-buttons{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+.risk-low{
+    border-color:#00ff88;
+    color:#00ff88;
+}
+
+.risk-mid{
+    border-color:#ffd166;
+    color:#ffd166;
+}
+
+.risk-high{
+    border-color:#ff4444;
+    color:#ff4444;
+}
+
+.cta-box{
+    margin-top:30px;
+    background:#1c2541;
+    padding:20px;
+    border-radius:15px;
+    border:1px dashed #8c9eff;
+}
+
+.cta-title{
+    font-size:1.1rem;
+    color:#fff;
+    margin-bottom:15px;
+    font-weight:bold;
+}
+
+.cta-buttons{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.cta-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    padding:15px;
+    border-radius:10px;
+    font-weight:bold;
+    font-size:0.95rem;
+    transition:0.2s;
+}
+
+.cta-blog{
+    background:transparent;
+    color:#00e5ff;
+    border:1px solid #00e5ff;
+}
+
+.cta-blog:hover{
+    background:#00e5ff;
+    color:#000;
+}
+
+.cta-yt{
+    background:transparent;
+    color:#ff4444;
+    border:1px solid #ff4444;
+}
+
+.cta-yt:hover{
+    background:#ff4444;
+    color:#fff;
+}
+
+.share-box{
+    margin-top:20px;
+}
+
+.share-text{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:15px;
+    color:#fff;
+    line-height:1.7;
+    margin-top:10px;
+    white-space:pre-line;
+}
+
+@media(max-width:700px){
+
+    .bet-buttons,
+    .cta-buttons,
+    .risk-buttons{
         grid-template-columns:1fr;
+    }
+
+    .status{
+        flex-direction:column;
     }
 }
 </style>
@@ -249,243 +382,521 @@ button:hover{
 <body>
 
 <div class="container">
+
 <nav class="top-nav">
 <a href="https://invest-challenge.com/" target="_blank" class="nav-link">🌐 投資日記ブログ</a>
-<a href="https://www.youtube.com/@フリーターの投資日記?sub_confirmation=1" target="_blank" class="nav-link-youtube">📺 YouTubeチャンネル登録</a>
-<a href="https://05j1155yuki-stack.github.io/toushi-game/index.html" class="nav-link-fp">🔰 FP3級モードへ</a>
+
+<a href="https://www.youtube.com/@フリーターの投資日記?sub_confirmation=1"
+target="_blank"
+class="nav-link-youtube">
+📺 YouTubeチャンネル登録
+</a>
+
+<a href="https://05j1155yuki-stack.github.io/toushi-game/index.html"
+class="nav-link-fp">
+🔰 FP3級モードへ
+</a>
 </nav>
 
-<h1>📊 個別株・決算マタギ編</h1>
-<div class="subtitle">半導体・AI・インフラ決算を読んで、伝説 of 相場師を目指せ！</div>
+<h1>📊 個別株・決算マタギ編 ULTIMATE</h1>
+
+<div class="subtitle">
+AI・半導体・電力インフラ決算を読み解き、<br>
+伝説 of 相場師を目指せ。
+</div>
 
 <div class="status">
-<div>資金：<span id="points">10000</span> pt</div>
-<div>取引：<span id="qnum">1</span> / 10</div>
+<div>💰 資金：<span id="points">10000</span> pt</div>
+<div>📈 取引：<span id="qnum">1</span> / 10</div>
+<div>🔥 勝率：<span id="winrate">0</span>%</div>
+</div>
+
+<div class="market-box">
+<div class="market-title">📰 本日の市場テーマ</div>
+<div class="market-news" id="marketNews"></div>
 </div>
 
 <div id="betScreen">
-<div class="question center">この決算マタギに、いくら張りますか？</div>
+
+<div class="risk-box">
+<div class="risk-title">⚡ リスク選択</div>
+
+<div class="risk-buttons">
+<button class="risk-low" onclick="setRisk('low',1.2)">
+🟢 低リスク<br>
+1.2倍
+</button>
+
+<button class="risk-mid" onclick="setRisk('mid',2)">
+🟡 中リスク<br>
+2倍
+</button>
+
+<button class="risk-high" onclick="setRisk('high',5)">
+🔴 高リスク<br>
+5倍
+</button>
+</div>
+</div>
+
+<div class="question center">
+この決算マタギに、いくら張りますか？
+</div>
+
 <div class="bet-buttons">
-<button onclick="setBet(1000)">1,000pt (打診買い)</button>
-<button onclick="setBet(3000)">3,000pt (主力投資)</button>
-<button onclick="setBet(5000)">5,000pt (集中投資)</button>
-<button onclick="setBet(points)" style="border-color:#ff4444;color:#ff4444;">💥 ALL-IN</button>
+
+<button onclick="setBet(1000)">
+1,000pt (打診買い)
+</button>
+
+<button onclick="setBet(3000)">
+3,000pt (主力投資)
+</button>
+
+<button onclick="setBet(5000)">
+5,000pt (集中投資)
+</button>
+
+<button onclick="setBet(points)"
+style="border-color:#ff4444;color:#ff4444;">
+💥 ALL-IN
+</button>
+
 </div>
 </div>
 
 <div id="quizScreen" class="hidden">
+
 <div id="companyBadge" class="company-badge"></div>
+
 <div id="question" class="question"></div>
+
 <div id="answers" class="answers"></div>
+
 <div id="result" class="result"></div>
+
+<div id="chartArea"></div>
+
 </div>
 
 <div id="endScreen" class="hidden center">
+
 <h2 id="endTitle"></h2>
+
 <div id="rankText" class="rank"></div>
-<p style="margin-top:20px;font-size:1.2rem;">最終運用資産：<span id="finalPoints"></span> pt</p>
+
+<p style="margin-top:20px;font-size:1.2rem;">
+最終運用資産：
+<span id="finalPoints"></span> pt
+</p>
+
+<div class="share-box">
+<div style="font-weight:bold;margin-bottom:10px;">
+📣 SNS共有
+</div>
+
+<div class="share-text" id="shareText"></div>
+</div>
 
 <div class="cta-box">
-<div class="cta-title">📢 今回の決算の“ガチ分析”はここで読める！</div>
+
+<div class="cta-title">
+📢 決算の“ガチ分析”はここで読める！
+</div>
+
 <div class="cta-buttons">
-<a href="https://invest-challenge.com/" target="_blank" class="cta-btn cta-blog">🌐 投資日記ブログを読む</a>
-<a href="https://www.youtube.com/@フリーターの投資日記?sub_confirmation=1" target="_blank" class="cta-btn cta-yt">📺 YouTubeチャンネル登録</a>
+
+<a href="https://invest-challenge.com/"
+target="_blank"
+class="cta-btn cta-blog">
+🌐 投資日記ブログ
+</a>
+
+<a href="https://www.youtube.com/@フリーターの投資日記?sub_confirmation=1"
+target="_blank"
+class="cta-btn cta-yt">
+📺 YouTube登録
+</a>
+
 </div>
 </div>
 
-<button style="margin-top:25px;width:100%;" onclick="location.reload()">🔄 次の決算期へ</button>
+<button
+style="margin-top:25px;width:100%;"
+onclick="location.reload()">
+🔄 次の決算期へ
+</button>
+
 </div>
 </div>
 
 <script>
-/* =========================
-   クイズデータ
-========================= */
+
+const marketThemes = [
+"生成AI向けデータセンター投資が加速。",
+"NVIDIA決算を前に半導体株が全面高。",
+"電力不足懸念で送電関連株が急騰。",
+"HBM需要拡大でメモリ株が物色。",
+"円安進行で輸出関連株に追い風。",
+"AI CAPEX拡大で設備投資期待。"
+];
+
+document.getElementById("marketNews").textContent =
+marketThemes[Math.floor(Math.random() * marketThemes.length)];
+
+const successMessages = [
+"🚀 市場予想を大幅超過！",
+"🔥 AI特需継続！",
+"📈 PTS急騰！",
+"💹 アナリスト目標株価引き上げ！"
+];
+
+const failMessages = [
+"📉 ガイダンス失望売り！",
+"💥 織り込み済み暴落！",
+"⚠️ 利確売り優勢！",
+"🚨 AI関連全面安！"
+];
+
 const allQuestions = [
-    {
-        encode: "5803 フジクラ",
-        q: "フジクラが生成AIデータセンター関連で特に強みを持つ製品は？",
-        a: ["超多芯光ファイバー", "液晶パネル", "スマホCPU", "電気自動車"],
-        c: "超多芯光ファイバー"
-    },
-    {
-        encode: "6146 ディスコ",
-        q: "ディスコの主力消耗品として利益率が高い製品は？",
-        a: ["ダイシングブレード", "液晶フィルム", "半導体メモリ", "銅線"],
-        c: "ダイシングブレード"
-    },
-    {
-        encode: "8035 東京エレクトロン",
-        q: "東京エレクトロンが世界トップ級シェアを持つ装置は？",
-        a: ["コーター・デベロッパー", "エアコン", "発電機", "EVモーター"],
-        c: "コーター・デベロッパー"
-    },
-    {
-        encode: "6857 アドバンテスト",
-        q: "ATEとは何の略？",
-        a: ["自動テスト装置", "自動運転エンジン", "AI転送装置", "高速通信規格"],
-        c: "自動テスト装置"
-    },
-    {
-        encode: "5802 住友電工",
-        q: "住友電工のAI関連材料として重要なのは？",
-        a: ["光ファイバーケーブル", "小麦", "不動産", "飲料水"],
-        c: "光ファイバーケーブル"
-    },
-    {
-        encode: "5805 SWCC",
-        q: "SWCC(5805)の最新決算で利益率が急改善している背景にある、生成AI×データセンター特需の対象製品は？",
-        a: ["高効率電力ケーブル・防災電線", "自動車用ワイヤー", "スマホ用銅箔", "半導体用特殊ガス"],
-        c: "高効率電力ケーブル・防災電線"
-    },
-    {
-        encode: "6622 ダイヘン",
-        q: "ダイヘン(6622)が誇る『二刀流』のビジネスモデル。クリーンルーム用ロボットと、もう一つの柱である電力インフラ機器は？",
-        a: ["変圧器（トランス）", "パワーコンディショナ", "リチウムイオン電池", "ガスタービン"],
-        c: "変圧器（トランス）"
-    },
-    {
-        encode: "285A キオクシアHD",
-        q: "キオクシアHD(285A)の主戦場であり、生成AIサーバーやスマホのデータ保存に必須の不揮発性メモリの名称は？",
-        a: ["NANDフラッシュメモリ", "DRAM", "HBM", "SRAM"],
-        c: "NANDフラッシュメモリ"
-    },
-    {
-        encode: "📊 マクロ経済",
-        q: "AIデータセンターの建設が世界中で激増した際、半導体製造装置株の後を追って「ドミノ倒し」のように物色されるセクターは？",
-        a: ["電力・送電インフラ関連株", "旅行・インバウンド関連株", "ディフェンシブ食品株", "地方銀行株"],
-        c: "電力・送電インフラ関連株"
-    },
-    {
-        encode: "💡 ファンダメンタルズ",
-        q: "ディスコ等の超高収益企業を分析する際、売上高から製造原価を引いた「売上総利益」の割合を示す指標は？",
-        a: ["粗利益率（グロスマージン）", "PER", "PBR", "自己資本比率"],
-        c: "粗利益率（グロスマージン）"
-    }
+
+{
+encode:"5803 フジクラ",
+q:"フジクラが生成AIデータセンター関連で特に強みを持つ製品は？",
+a:["超多芯光ファイバー","液晶パネル","スマホCPU","電気自動車"],
+c:"超多芯光ファイバー"
+},
+
+{
+encode:"6146 ディスコ",
+q:"ディスコの主力消耗品として利益率が高い製品は？",
+a:["ダイシングブレード","液晶フィルム","半導体メモリ","銅線"],
+c:"ダイシングブレード"
+},
+
+{
+encode:"8035 東京エレクトロン",
+q:"東京エレクトロンが世界トップ級シェアを持つ装置は？",
+a:["コーター・デベロッパー","エアコン","発電機","EVモーター"],
+c:"コーター・デベロッパー"
+},
+
+{
+encode:"6857 アドバンテスト",
+q:"ATEとは何の略？",
+a:["自動テスト装置","自動運転エンジン","AI転送装置","高速通信規格"],
+c:"自動テスト装置"
+},
+
+{
+encode:"5805 SWCC",
+q:"SWCCのAIデータセンター関連特需の対象製品は？",
+a:["高効率電力ケーブル","ゲーム機","飲料水","衣料品"],
+c:"高効率電力ケーブル"
+},
+
+{
+encode:"285A キオクシアHD",
+q:"生成AIサーバーで重要な不揮発性メモリは？",
+a:["NANDフラッシュメモリ","DRAM","SRAM","CPU"],
+c:"NANDフラッシュメモリ"
+}
+
 ];
 
 let quizData = [];
 let currentQuestion = 0;
 let points = 10000;
 let currentBet = 0;
+let riskMultiplier = 1;
+let wins = 0;
+
 const TOTAL_PLAY = 10;
 
-function shuffleArray(array) {
-    const copied = [...array];
-    for (let i = copied.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [copied[i], copied[j]] = [copied[j], copied[i]];
-    }
-    return copied;
+function shuffleArray(array){
+
+const copied = [...array];
+
+for(let i = copied.length - 1; i > 0; i--){
+
+const j = Math.floor(Math.random() * (i + 1));
+
+[copied[i], copied[j]] = [copied[j], copied[i]];
+}
+
+return copied;
 }
 
 function initGame(){
-    const shuffledQuestions = shuffleArray(allQuestions);
-    quizData = shuffledQuestions.map(q => {
-        return {
-            encode: q.encode,
-            q: q.q,
-            answers: shuffleArray(q.a),
-            correctText: q.c
-        };
-    });
-    updateDisplay();
+
+const shuffledQuestions = shuffleArray(allQuestions);
+
+quizData = [];
+
+while(quizData.length < TOTAL_PLAY){
+
+quizData.push(
+...shuffledQuestions.map(q => ({
+encode:q.encode,
+q:q.q,
+answers:shuffleArray(q.a),
+correctText:q.c
+}))
+);
+
+}
+
+quizData = quizData.slice(0,TOTAL_PLAY);
+
+updateDisplay();
 }
 
 function updateDisplay(){
-    document.getElementById("points").textContent = points.toLocaleString();
-    document.getElementById("qnum").textContent = currentQuestion + 1;
+
+document.getElementById("points").textContent =
+points.toLocaleString();
+
+document.getElementById("qnum").textContent =
+currentQuestion + 1;
+
+const rate =
+currentQuestion === 0
+? 0
+: Math.round((wins / currentQuestion) * 100);
+
+document.getElementById("winrate").textContent = rate;
+}
+
+function setRisk(type,multi){
+
+riskMultiplier = multi;
+
+document.querySelectorAll(".risk-buttons button")
+.forEach(btn => btn.style.background = "#1c2541");
+
+event.target.style.background = "#233554";
 }
 
 function setBet(amount){
-    if(amount > points){
-        alert("資金が足りません！");
-        return;
-    }
-    currentBet = amount;
-    document.getElementById("betScreen").classList.add("hidden");
-    document.getElementById("quizScreen").classList.remove("hidden");
-    loadQuestion();
+
+if(amount > points){
+alert("資金が足りません！");
+return;
+}
+
+currentBet = amount;
+
+document.getElementById("betScreen")
+.classList.add("hidden");
+
+document.getElementById("quizScreen")
+.classList.remove("hidden");
+
+loadQuestion();
 }
 
 function loadQuestion(){
-    const q = quizData[currentQuestion];
-    document.getElementById("companyBadge").textContent = q.encode;
-    document.getElementById("question").textContent = q.q;
-    document.getElementById("result").textContent = "";
 
-    const answersEl = document.getElementById("answers");
-    answersEl.innerHTML = "";
+const q = quizData[currentQuestion];
 
-    q.answers.forEach((ansText, index) => {
-        const btn = document.createElement("button");
-        btn.textContent = `${index + 1}. ${ansText}`;
-        btn.onclick = () => checkAnswer(ansText === q.correctText);
-        answersEl.appendChild(btn);
-    });
+document.getElementById("companyBadge").textContent =
+q.encode;
+
+document.getElementById("question").textContent =
+q.q;
+
+document.getElementById("result").innerHTML = "";
+
+document.getElementById("chartArea").innerHTML = "";
+
+const answersEl = document.getElementById("answers");
+
+answersEl.innerHTML = "";
+
+q.answers.forEach((ansText,index)=>{
+
+const btn = document.createElement("button");
+
+btn.textContent = `${index + 1}. ${ansText}`;
+
+btn.onclick = ()=>checkAnswer(ansText === q.correctText);
+
+answersEl.appendChild(btn);
+
+});
 }
 
 function checkAnswer(isCorrect){
-    const buttons = document.querySelectorAll("#answers button");
-    buttons.forEach(btn => { btn.disabled = true; });
 
-    const resultEl = document.getElementById("result");
+const buttons =
+document.querySelectorAll("#answers button");
 
-    if(isCorrect){
-        points += currentBet;
-        resultEl.innerHTML = `🔥 決算成功！<br><span class="win">+${currentBet.toLocaleString()}pt</span>`;
-        resultEl.className = "result win";
-    }else{
-        points -= currentBet;
-        resultEl.innerHTML = `📉 決算ミス！<br><span class="gameover">-${currentBet.toLocaleString()}pt</span>`;
-        resultEl.className = "result gameover";
-    }
+buttons.forEach(btn => btn.disabled = true);
 
-    updateDisplay();
+const resultEl = document.getElementById("result");
 
-    setTimeout(()=>{
-        currentQuestion++;
+const chartArea = document.getElementById("chartArea");
 
-        if(points <= 0){
-            endGame();
-            return;
-        }
+const randomSuccess =
+successMessages[
+Math.floor(Math.random() * successMessages.length)
+];
 
-        if(currentQuestion >= TOTAL_PLAY){
-            endGame();
-        }else{
-            document.getElementById("quizScreen").classList.add("hidden");
-            document.getElementById("betScreen").classList.remove("hidden");
-        }
-    }, 2000);
+const randomFail =
+failMessages[
+Math.floor(Math.random() * failMessages.length)
+];
+
+const marketShock = Math.random();
+
+let profit = Math.floor(currentBet * riskMultiplier);
+
+if(isCorrect){
+
+wins++;
+
+if(marketShock < 0.85){
+
+points += profit;
+
+resultEl.innerHTML =
+`${randomSuccess}<br>
+<span class="win">
++${profit.toLocaleString()}pt
+</span>`;
+
+resultEl.className = "result win";
+
+chartArea.innerHTML =
+`
+<div class="candle">
+<div class="bull"></div>
+</div>
+`;
+
+}else{
+
+points -= Math.floor(profit * 0.5);
+
+resultEl.innerHTML =
+`😱 好決算なのに暴落！<br>
+<span class="gameover">
+-${Math.floor(profit * 0.5).toLocaleString()}pt
+</span>`;
+
+resultEl.className = "result gameover";
+
+chartArea.innerHTML =
+`
+<div class="candle">
+<div class="bear"></div>
+</div>
+`;
+}
+
+}else{
+
+points -= currentBet;
+
+resultEl.innerHTML =
+`${randomFail}<br>
+<span class="gameover">
+-${currentBet.toLocaleString()}pt
+</span>`;
+
+resultEl.className = "result gameover";
+
+chartArea.innerHTML =
+`
+<div class="candle">
+<div class="bear"></div>
+</div>
+`;
+}
+
+updateDisplay();
+
+setTimeout(()=>{
+
+currentQuestion++;
+
+if(points <= 0){
+endGame();
+return;
+}
+
+if(currentQuestion >= TOTAL_PLAY){
+
+endGame();
+
+}else{
+
+document.getElementById("quizScreen")
+.classList.add("hidden");
+
+document.getElementById("betScreen")
+.classList.remove("hidden");
+}
+
+},2500);
 }
 
 function endGame(){
-    document.getElementById("quizScreen").classList.add("hidden");
-    document.getElementById("betScreen").classList.add("hidden");
-    document.getElementById("endScreen").classList.remove("hidden");
 
-    document.getElementById("finalPoints").textContent = points.toLocaleString();
+document.getElementById("quizScreen")
+.classList.add("hidden");
 
-    const title = document.getElementById("endTitle");
-    const rankText = document.getElementById("rankText");
+document.getElementById("betScreen")
+.classList.add("hidden");
 
-    if(points <= 0){
-        title.textContent = "💥 ロスカット";
-        rankText.textContent = "💀 イナゴ投資家";
-    }else if(points < 15000){
-        title.textContent = "📉 微妙";
-        rankText.textContent = "🔰 初心者";
-    }else if(points < 40000){
-        title.textContent = "📈 好成績";
-        rankText.textContent = "🥉 中級投資家";
-    }else{
-        title.textContent = "👑 爆益";
-        rankText.textContent = "🥇 伝説の相場師";
-    }
+document.getElementById("endScreen")
+.classList.remove("hidden");
+
+document.getElementById("finalPoints").textContent =
+points.toLocaleString();
+
+const title =
+document.getElementById("endTitle");
+
+const rankText =
+document.getElementById("rankText");
+
+let rank = "";
+
+if(points <= 0){
+
+title.textContent = "💥 ロスカット";
+rank = "💀 イナゴ投資家";
+
+}else if(points < 15000){
+
+title.textContent = "📉 微妙";
+rank = "🔰 初心者";
+
+}else if(points < 40000){
+
+title.textContent = "📈 好成績";
+rank = "🥉 中級投資家";
+
+}else{
+
+title.textContent = "👑 爆益";
+rank = "🥇 伝説の相場師";
+}
+
+rankText.textContent = rank;
+
+document.getElementById("shareText").textContent =
+`私は「${rank}」でした！
+最終運用資産：${points.toLocaleString()}pt
+
+#決算マタギゲーム
+#半導体株
+#AI関連株`;
 }
 
 initGame();
+
 </script>
 </body>
 </html>
